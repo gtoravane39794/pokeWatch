@@ -1,0 +1,56 @@
+# ---- PokeWatch configuration -------------------------------------------------
+poll_seconds: 45          # seconds between full sweeps (env POLL_SECONDS overrides)
+notify_on_first_run: true # alert for items already in stock at startup (good for testing)
+
+# Sets you care most about. Matches get a gold "PRIORITY" embed and are always checked.
+priority_terms:
+  - prismatic evolutions
+  - 30th celebration
+  - 30th anniversary
+
+# If true, ANY in-stock Pokemon TCG product (that passes price rules) alerts you too.
+# If false, only priority_terms alert.
+alert_other_pokemon_tcg: true
+
+# Title must contain one of these to count as a sealed TCG product...
+tcg_terms: [booster, elite trainer, etb, tcg, trading card, trading cards, battle deck, blister,
+            surprise box, ultra-premium, ultra premium, premium collection, binder collection,
+            poster collection, tin, mini tin]
+# ...and none of these (accessories, toys, singles, plush...)
+exclude_terms: [plush, figure, funko, lego, squishmallow, sleeves, playmat, deck protector,
+                portfolio, binder only, ultra pro, costume, t-shirt, backpack, lunch,
+                puzzle, keychain, book, books, paperback, hardcover, sticker, storybook, cake, cupcake,
+                cupcakes, coloring, crayola, throw, blanket, nintendo, switch, video game, deck box,
+                pin set, pin set, graded, psa, bgs, cgc, single card, proxy, custom]
+
+# ---- Scalper protection ------------------------------------------------------
+# Max price (USD) we still consider a genuine retail price, per product type.
+# First match wins (top to bottom). Anything above the cap is treated as a scalper
+# price and NEVER alerts. Third-party / marketplace sellers NEVER alert either.
+price_caps:
+  - {name: "Booster Box / Display", match: ["booster box", "display", "36 booster"], cap: 190}
+  - {name: "Elite Trainer Box",     match: ["elite trainer", "etb"],               cap: 75}
+  - {name: "Premium/Ultra Premium Collection", match: ["ultra-premium", "ultra premium", "super-premium", "super premium"], cap: 130}
+  - {name: "Booster Bundle",        match: ["booster bundle"],                     cap: 40}
+  - {name: "Binder / Collection Box", match: ["binder collection", "premium collection", "collection", "box set", "gift set"], cap: 65}
+  - {name: "Battle / Theme Deck",   match: ["battle deck", "theme deck", "deck"],  cap: 35}
+  - {name: "Tin",                   match: ["tin"],                                cap: 35}
+  - {name: "Blister / Pack",        match: ["blister", "booster pack", "pack"],    cap: 20}
+default_cap: 60
+
+# ---- Retailers ---------------------------------------------------------------
+retailers:
+  target:  {enabled: true}
+  bestbuy: {enabled: true}   # scrapes bestbuy.com search (online shipping only, no API key)
+  costco:  {enabled: true}   # best effort - Costco blocks bots; may return nothing
+  sams:    {enabled: true}   # best effort - Sam's Club blocks bots; may return nothing
+
+target:
+  # Searches run each sweep. Keep this list short: Target's bot protection flags heavy polling.
+  searches: ["pokemon prismatic evolutions", "pokemon 30th celebration", "pokemon trading card game"]
+
+bestbuy:
+  searches: ["pokemon prismatic evolutions", "pokemon 30th celebration", "pokemon trading card game"]
+
+sams:
+  searches: ["pokemon trading cards", "pokemon prismatic evolutions", "pokemon 30th celebration"]

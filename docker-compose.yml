@@ -1,0 +1,9 @@
+services:
+  pokewatch:
+    build: .
+    container_name: pokewatch
+    restart: unless-stopped
+    env_file: .env
+    volumes:
+      - ./data:/app/data          # remembers what was already alerted
+      - ./config.yaml:/app/config.yaml:ro
